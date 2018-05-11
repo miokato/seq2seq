@@ -56,7 +56,7 @@ def predict():
     questions = []
     with open(data_path, "r") as f:
         for fi, line in enumerate(f):
-            if fi >= 50:
+            if fi >= 300:
                 break
             # print("now iter ", fi)
             line = line.strip()
@@ -73,7 +73,7 @@ def predict():
     print("loaded model is ", model)
     autoencoder.load_weights(model)
 
-    Ys = autoencoder.predict(Xs).tolist()
+    Ys = autoencoder.predict(Xs, verbose=True).tolist()
     for idx, (question, y) in enumerate(zip(questions, Ys)):
         terms = []
         for v in y:

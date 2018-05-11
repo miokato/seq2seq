@@ -36,8 +36,7 @@ def train():
         random.shuffle(lines)
         for idx, line in enumerate(lines):
             print("now iter ", idx)
-            #if idx >= 150000:
-            if idx >= 15000:
+            if idx >= 150000:
                 break
             line = line.strip()
             question, answer = line.split("___SP___")
@@ -61,8 +60,7 @@ def train():
         print("loaded model is ", model)
         autoencoder.load_weights(model)
 
-    # for i in range(2000):
-    for i in range(200):
+    for i in range(2000):
         print_callback = LambdaCallback(on_epoch_end=callbacks)
         batch_size = random.randint(32, 64)
         random_optim = random.choice([Adam(), SGD(), RMSprop()])
