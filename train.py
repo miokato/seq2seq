@@ -8,10 +8,10 @@ import numpy as np
 from keras.callbacks import LambdaCallback
 from keras.optimizers import SGD, RMSprop, Adam
 
-from models import model
+from models import model, model2
 
 
-encoder, autoencoder = model()
+encoder, autoencoder = model2()
 buff = None
 
 pkl_path = 'dataset/c_to_i.pkl'
@@ -64,7 +64,7 @@ def train():
         print_callback = LambdaCallback(on_epoch_end=callbacks)
         batch_size = random.randint(32, 64)
         random_optim = random.choice([Adam(), SGD(), RMSprop()])
-        print(random_optim)
+        # print(random_optim)
         autoencoder.optimizer = random_optim
         autoencoder.fit(x, y, shuffle=True, batch_size=batch_size, epochs=1, callbacks=[print_callback])
         autoencoder.save("models/%9f_%09d.h5" % (buff['loss'], i))

@@ -27,3 +27,24 @@ def model():
     autoencoder.compile(optimizer=Adam(), loss='categorical_crossentropy')
 
     return encoder, autoencoder
+
+
+def model2():
+    timesteps = 50
+    inputs = Input(shape=(timesteps, 128))
+    encoded = LSTM(512)(inputs)
+
+    inputs_a = Input(shape=(timesteps, 128))
+    a_vector = Dense(512, activation='softmax')(Flatten()(inputs))
+    # mul         = merge([encoded, a_vector],  mode='mul')  # this for keras v1
+    mul = multiply([encoded, a_vector])
+    encoder = Model(inputs, mul)
+
+    x = RepeatVector(timesteps)(mul)
+    x = Bidirectional(LSTM(512, return_sequences=True))(x)
+    decoded = TimeDistributed(Dense(128, activation='softmax'))(x)
+
+    autoencoder = Model(inputs, decoded)
+    autoencoder.compile(optimizer=Adam(), loss='categorical_crossentropy')
+
+    return encoder, autoencoder
